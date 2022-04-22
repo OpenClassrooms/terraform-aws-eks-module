@@ -8,6 +8,8 @@ module "my_example_module" {
   eks_logs_retention_in_days = 30
 
   eks_node_group_instance_types   = "c5.xlarge"
+  eks_node_group_instance_capacity_type = "SPOT"
+  eks_node_group_instance_disk_size = 100
   eks_node_group_instance_min     = 2
   eks_node_group_instance_max     = 5
   eks_node_group_instance_desired = 2

@@ -33,6 +33,16 @@ variable "eks_node_group_instance_types" {
   default     = "c5.xlarge"
 }
 
+variable "eks_node_group_instance_disk_size" {
+  description = "The disk size for node instances"
+  default     = 50
+}
+
+variable "eks_node_group_instance_capacity_type" {
+  description = "Choose between ON_DEMAND and SPOT"
+  default     = "ON_DEMAND"
+}
+
 variable "eks_node_group_instance_min" {
   description = "The min instances nb for nodes"
   default     = 2

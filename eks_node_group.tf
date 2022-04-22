@@ -4,6 +4,8 @@ resource "aws_eks_node_group" "eks_node_group" {
   node_group_name = "${var.eks_cluster_name}-node-group"
   node_role_arn   = aws_iam_role.eks_node_group_role.arn
   subnet_ids      = aws_subnet.public_subnet.*.id
+  capacity_type   = var.eks_node_group_instance_capacity_type
+  disk_size       = var.eks_node_group_instance_disk_size
 
   scaling_config {
     desired_size = var.eks_node_group_instance_desired
