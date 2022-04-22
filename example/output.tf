@@ -17,3 +17,8 @@ output "vpc_eips" {
   description = "The EKS VPC EIPs"
   value       = module.my_example_module.vpc_eips
 }
+
+output "eks_admin_role_name" {
+  description = "The EKS admin role name"
+  value       = module.my_example_module.eks_admin_role_name
+}

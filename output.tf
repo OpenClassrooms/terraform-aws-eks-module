@@ -17,3 +17,8 @@ output "vpc_eips" {
   description = "The EKS VPC EIPs"
   value       = join(",", aws_eip.nat_gateway_eip.*.public_ip)
 }
+
+output "eks_admin_role_name" {
+  description = "The EKS admin role name"
+  value       = aws_iam_role.eks_admin_role.name
+}
