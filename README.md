@@ -41,6 +41,33 @@ module "my_example_module" {
 [Complete example](https://github.com/OpenClassrooms/terraform-aws-eks-module/blob/master/example/main.tf) - Create a complete cluster
 
 
+## After terraform apply?
+
+Ok, your terraform config is correctly applied. What next? You need to access the cluster and launch kubectl commands.
+
+However, you need to do more setup before doing this.
+
+/!\ After setup, ONLY the IAM user that created the cluster can access it. You have to patch aws-auth k8s configmap to allow other people to connects the cluster. We are assuming that only people you allow to assume role `eks-admin-role` will connect the cluster. This is a preconfigured role on this repo, but you can adapt it for your needs.
+
+There is a [Makefile](https://github.com/OpenClassrooms/terraform-aws-eks-module/blob/master/example/Makefile) that allow to do these actions.
+
+```
+➜ jeremy.govi@FVFF31BRQ05P  ~/workspace/github.com/OpenClassrooms/terraform-aws-eks-module/example git:(master) make
+
+Usage:
+  make <target>
+
+Targets from Makefile:
+  => help: [HELP] show help
+  => terraform_apply: Apply terraform config
+  => generate_initial_kube_config: Generate First time setup Kubeconfig to access the cluster in order to setup IAM Accesses
+  => backup_eks_awsauth_configmap: Connects to the EKS cluster with the root config to get the aws-auth configmap and save it
+  => generate_kube_config: Generate Kubeconfig to access the cluster
+  => display_eks_awsauth_configmap: Connects to the EKS cluster with the root config and display the aws-auth configmap
+  => patch_eks_awsauth_configmap: Connects to the EKS cluster with the root config to patch the configmaps to allow other users to connect
+```
+
+
 ## Requirements
 
 | Name | Version |
