@@ -13,8 +13,8 @@ module "my_example_module" {
   eks_node_group_instance_desired = 2
 
   eks_vpc_cidr            = nonsensitive(data.aws_ssm_parameter.eks_vpc_cidr.value)
-  eks_public_subnet_cidr  = split(",", data.aws_ssm_parameter.eks_public_subnet_cidr.value)
-  eks_private_subnet_cidr = split(",", nonsensitive(data.aws_ssm_parameter.eks_public_subnet_cidr.value))
+  eks_public_subnet_cidr  = split(",", nonsensitive(data.aws_ssm_parameter.eks_public_subnet_cidr.value))
+  eks_private_subnet_cidr = split(",", nonsensitive(data.aws_ssm_parameter.eks_private_subnet_cidr.value))
 
 
   tags = var.default_tags
