@@ -1,19 +1,19 @@
 output "eks_cluster_endpoint" {
   description = "The EKS cluster endpoint"
-  value       = aws_eks_cluster.eks_cluster.endpoint
+  value       = module.my_example_module.eks_cluster_endpoint
 }
 
 output "eks_cluster_name" {
   description = "The EKS cluster name"
-  value       = var.eks_cluster_name
+  value       = module.my_example_module.eks_cluster_name
 }
 
 output "cluster_ca_certificate" {
   description = "The EKS cluster CA Cert"
-  value       = aws_eks_cluster.eks_cluster.certificate_authority[0].data
+  value       = module.my_example_module.cluster_ca_certificate
 }
 
 output "vpc_eips" {
   description = "The EKS VPC EIPs"
-  value       = join(",", aws_eip.nat_gateway_eip.*.public_ip)
+  value       = module.my_example_module.vpc_eips
 }
