@@ -3,6 +3,9 @@
 
 Terraform module which provision a complete EKS cluster.
 
+## Prerequisites
+- aws-iam-authenticator: install documentation available here: https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
+
 ## Usage
 
 ### EKS
