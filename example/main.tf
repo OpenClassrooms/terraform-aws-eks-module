@@ -23,22 +23,25 @@ module "my_example_module" {
 
 # Store credentials/infos in SSM (for use with k8s management repo (for installing ingresses, helm templates, pods....))
 resource "aws_ssm_parameter" "endpoint" {
-  name  = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/endpoint"
-  type  = "String"
-  value = module.my_example_module.eks_cluster_endpoint
-  tags  = var.default_tags
+  provider = aws.root
+  name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/endpoint"
+  type     = "String"
+  value    = module.my_example_module.eks_cluster_endpoint
+  tags     = var.default_tags
 }
 
 resource "aws_ssm_parameter" "cluster_name" {
-  name  = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/cluster_name"
-  type  = "String"
-  value = module.my_example_module.eks_cluster_name
-  tags  = var.default_tags
+  provider = aws.root
+  name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/cluster_name"
+  type     = "String"
+  value    = module.my_example_module.eks_cluster_name
+  tags     = var.default_tags
 }
 
 resource "aws_ssm_parameter" "cluster_ca_certificate" {
-  name  = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/cluster_ca_certificate"
-  type  = "SecureString"
-  value = module.my_example_module.cluster_ca_certificate
-  tags  = var.default_tags
+  provider = aws.root
+  name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/cluster_ca_certificate"
+  type     = "SecureString"
+  value    = module.my_example_module.cluster_ca_certificate
+  tags     = var.default_tags
 }
