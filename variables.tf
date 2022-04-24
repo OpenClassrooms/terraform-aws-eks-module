@@ -86,3 +86,8 @@ variable "eks_private_subnet_cidr" {
     "10.20.22.0/24",
   ]
 }
+
+variable "use_karpenter" {
+  description = "Do you want to use karpenter (https://karpenter.sh/) or manage your node group yourself?"
+  default     = false
+}
