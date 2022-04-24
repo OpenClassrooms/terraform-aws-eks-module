@@ -28,6 +28,11 @@ variable "eks_logs_retention_in_days" {
   default     = 30
 }
 
+variable "use_fargate" {
+  description = "Do you want to use fargate or manage your node group yourself?"
+  default     = false
+}
+
 variable "eks_node_group_instance_types" {
   description = "The type of instances for nodes"
   default     = "c5.xlarge"
