@@ -16,12 +16,7 @@ module "my_example_module" {
 
   eks_cluster_name = "eks-example"
 
-  eks_logs_retention_in_days = 30
-
-  eks_node_group_instance_types   = "c5.xlarge"
-  eks_node_group_instance_min     = 2
-  eks_node_group_instance_max     = 5
-  eks_node_group_instance_desired = 2
+  use_karpenter = true
 
   eks_vpc_cidr            = "10.20.0.0/16"
   eks_public_subnet_cidr  = [
@@ -41,10 +36,12 @@ module "my_example_module" {
 
 ## Example
 
-[Complete example](https://github.com/OpenClassrooms/terraform-aws-eks-module/blob/master/example/main.tf) - Create a complete cluster
+[Complete example](https://github.com/OpenClassrooms/terraform-aws-eks-module/blob/master/example/eks/main.tf) - Create a complete cluster
 
 
-## After terraform apply?
+# After terraform apply?
+
+## Access the cluster via kubectl
 
 Ok, your terraform config is correctly applied. What next? You need to access the cluster and launch kubectl commands.
 
@@ -69,6 +66,17 @@ Targets from Makefile:
   => display_eks_awsauth_configmap: Connects to the EKS cluster with the root config and display the aws-auth configmap
   => patch_eks_awsauth_configmap: Connects to the EKS cluster with the root config to patch the configmaps to allow other users to connect
 ```
+
+
+## Install karpenter (if you think that Fargate is too expensive and you don't want to manage manually nodes)
+
+Just go to [This directory](https://github.com/OpenClassrooms/terraform-aws-eks-module/blob/master/example/karpenter). It contains a helm chart to install karpenter. Just launch :
+
+```
+terraform init
+terraform apply
+```
+Karpenter is now active and ready to begin provisioning nodes. Create some pods using a deployment, and watch Karpenter provision nodes in response.
 
 
 ## Requirements

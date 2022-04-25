@@ -1,18 +1,14 @@
 # Example config to show how deploy this module
 
 module "my_example_module" {
-  source = "../" # in this example, this is a local module. For real use, source will be "OpenClassrooms/eks-module/aws"
+  source = "../../" # in this example, this is a local module. For real use, source will be "OpenClassrooms/eks-module/aws"
 
   eks_cluster_name = var.eks_cluster_name
 
   eks_logs_retention_in_days = 30
 
-  eks_node_group_instance_types   = "c5.xlarge"
-  eks_node_group_instance_capacity_type = "SPOT"
-  eks_node_group_instance_disk_size = 100
-  eks_node_group_instance_min     = 2
-  eks_node_group_instance_max     = 5
-  eks_node_group_instance_desired = 2
+  use_fargate   = false
+  use_karpenter = true
 
   eks_vpc_cidr            = nonsensitive(data.aws_ssm_parameter.eks_vpc_cidr.value)
   eks_public_subnet_cidr  = split(",", nonsensitive(data.aws_ssm_parameter.eks_public_subnet_cidr.value))
@@ -32,6 +28,14 @@ resource "aws_ssm_parameter" "endpoint" {
   tags     = var.default_tags
 }
 
+resource "aws_ssm_parameter" "cluster_id" {
+  provider = aws.root
+  name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/cluster_id"
+  type     = "String"
+  value    = module.my_example_module.eks_cluster_id
+  tags     = var.default_tags
+}
+
 resource "aws_ssm_parameter" "cluster_name" {
   provider = aws.root
   name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/cluster_name"
@@ -45,5 +49,21 @@ resource "aws_ssm_parameter" "cluster_ca_certificate" {
   name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/cluster_ca_certificate"
   type     = "SecureString"
   value    = module.my_example_module.cluster_ca_certificate
+  tags     = var.default_tags
+}
+
+resource "aws_ssm_parameter" "karpenter_irsa_iam_role_arn" {
+  provider = aws.root
+  name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/karpenter_irsa_iam_role_arn"
+  type     = "String"
+  value    = module.my_example_module.karpenter_irsa_iam_role_arn
+  tags     = var.default_tags
+}
+
+resource "aws_ssm_parameter" "karpenter_iam_instance_profile_name" {
+  provider = aws.root
+  name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/karpenter_iam_instance_profile_name"
+  type     = "String"
+  value    = module.my_example_module.karpenter_iam_instance_profile_name
   tags     = var.default_tags
 }

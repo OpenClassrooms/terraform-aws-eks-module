@@ -35,7 +35,7 @@ variable "use_fargate" {
 
 variable "eks_node_group_instance_types" {
   description = "The type of instances for nodes"
-  default     = "c5.xlarge"
+  default     = "t3.medium"
 }
 
 variable "eks_node_group_instance_disk_size" {
@@ -50,17 +50,17 @@ variable "eks_node_group_instance_capacity_type" {
 
 variable "eks_node_group_instance_min" {
   description = "The min instances nb for nodes"
-  default     = 2
+  default     = 1
 }
 
 variable "eks_node_group_instance_max" {
   description = "The max instances nb for nodes"
-  default     = 3
+  default     = 1
 }
 
 variable "eks_node_group_instance_desired" {
   description = "The desired instances nb for nodes"
-  default     = 2
+  default     = 1
 }
 
 variable "eks_vpc_cidr" {
