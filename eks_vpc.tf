@@ -4,7 +4,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
   tags = merge({
     Name                                            = "${var.eks_cluster_name}-vpc"
-    "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "${local.vpc_tag_owned_or_shared}"
   }, var.tags, var.default_tags)
 }
 
@@ -16,11 +16,9 @@ resource "aws_subnet" "public_subnet" {
   map_public_ip_on_launch = true
 
   tags = merge(var.tags, var.default_tags, {
-    "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
-    "kubernetes.io/role/elb"                        = 1
-    "Name"                                          = "node-group-subnet-${var.eks_cluster_name}-${count.index + 1}"
-    "state"                                         = "public"
-  })
+    "Name"                                          = "${local.vpc_public_subnet_name_tag}-${count.index + 1}"
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "${local.vpc_tag_owned_or_shared}"
+  }, local.vpc_public_additional_subnet_tags)
 }
 
 resource "aws_subnet" "private_subnet" {
@@ -31,11 +29,9 @@ resource "aws_subnet" "private_subnet" {
   map_public_ip_on_launch = false
 
   tags = merge(var.tags, var.default_tags, {
-    "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"               = 1
-    "Name"                                          = "fargate-subnet-${var.eks_cluster_name}-${count.index + 1}"
-    "state"                                         = "private"
-  })
+    "Name"                                          = "${local.vpc_private_subnet_name_tag}-${count.index + 1}"
+    "kubernetes.io/cluster/${var.eks_cluster_name}" = "${local.vpc_tag_owned_or_shared}"
+  }, local.vpc_private_additional_subnet_tags)
 }
 
 resource "aws_internet_gateway" "internet_gateway" {

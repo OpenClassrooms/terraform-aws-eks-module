@@ -6,7 +6,6 @@ resource "aws_eks_node_group" "eks_node_group" {
   node_role_arn   = aws_iam_role.eks_node_group_role[0].arn
   subnet_ids      = aws_subnet.public_subnet.*.id
   capacity_type   = var.eks_node_group_instance_capacity_type
-  disk_size       = var.eks_node_group_instance_disk_size
 
   scaling_config {
     desired_size = var.eks_node_group_instance_desired
@@ -14,6 +13,11 @@ resource "aws_eks_node_group" "eks_node_group" {
     min_size     = var.eks_node_group_instance_min
   }
 
+  launch_template {
+    name    = aws_launch_template.eks_node_group_launch_template.name
+    version = aws_launch_template.eks_node_group_launch_template.latest_version
+  }
+
   instance_types = ["${var.eks_node_group_instance_types}"]
-  tags           = merge(var.tags, var.default_tags)
+  tags           = merge(var.tags, var.default_tags, local.node_group_resources_additional_tags)
 }

@@ -11,7 +11,7 @@ data "aws_ssm_parameter" "aws_default_region_root" {
   name = "/vault/root/aws/iam/terraform/aws_default_region"
 }
 
-# Getting VPC config on SSM 
+# Getting VPC config on SSM
 data "aws_ssm_parameter" "eks_vpc_cidr" {
   name = "/vault/shared/aws/${var.ou_name}/eks/vpc_config/vpc_cidr"
 }
