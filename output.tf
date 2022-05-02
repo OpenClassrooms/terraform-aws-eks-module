@@ -13,6 +13,16 @@ output "eks_cluster_name" {
   value       = var.eks_cluster_name
 }
 
+output "cluster_oidc_issuer_url" {
+  description = "The URL on the EKS cluster for the OpenID Connect identity provider"
+  value       = try(aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer, "")
+}
+
+variable "cluster_identity_oidc_issuer_arn" {
+  description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
+  value       = try(aws_iam_openid_connect_provider.eks_openid_connect_provider.arn, "")
+}
+
 output "cluster_ca_certificate" {
   description = "The EKS cluster CA Cert"
   value       = aws_eks_cluster.eks_cluster.certificate_authority[0].data
