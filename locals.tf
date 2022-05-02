@@ -13,7 +13,6 @@ locals {
   vpc_public_additional_subnet_tags = var.use_karpenter ? {
     } : {
     "kubernetes.io/role/elb" = 1
-    "state"                  = "public"
   }
 
   vpc_private_additional_subnet_tags = var.use_karpenter ? {
@@ -21,7 +20,6 @@ locals {
     "karpenter.sh/discovery" = var.eks_cluster_name
     } : {
     "kubernetes.io/role/internal-elb" = 1
-    "state"                           = "private"
   }
 
   node_group_resources_additional_tags = var.use_karpenter ? {
