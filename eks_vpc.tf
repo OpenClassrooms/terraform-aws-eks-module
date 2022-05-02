@@ -18,6 +18,7 @@ resource "aws_subnet" "public_subnet" {
   tags = merge(var.tags, var.default_tags, {
     "Name"                                          = "${local.vpc_public_subnet_name_tag}-${count.index + 1}"
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "${local.vpc_tag_owned_or_shared}"
+    "state"                                         = "public"
   }, local.vpc_public_additional_subnet_tags)
 }
 
@@ -31,6 +32,7 @@ resource "aws_subnet" "private_subnet" {
   tags = merge(var.tags, var.default_tags, {
     "Name"                                          = "${local.vpc_private_subnet_name_tag}-${count.index + 1}"
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "${local.vpc_tag_owned_or_shared}"
+    "state"                                         = "private"
   }, local.vpc_private_additional_subnet_tags)
 }
 

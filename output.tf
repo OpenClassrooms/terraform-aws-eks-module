@@ -18,6 +18,11 @@ output "cluster_ca_certificate" {
   value       = aws_eks_cluster.eks_cluster.certificate_authority[0].data
 }
 
+output "vpc_id" {
+  description = "The EKS VPC id"
+  value       = aws_vpc.vpc.id
+}
+
 output "vpc_eips" {
   description = "The EKS VPC EIPs"
   value       = join(",", aws_eip.nat_gateway_eip.*.public_ip)
