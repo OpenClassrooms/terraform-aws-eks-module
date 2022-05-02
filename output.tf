@@ -18,7 +18,7 @@ output "cluster_oidc_issuer_url" {
   value       = try(aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer, "")
 }
 
-variable "cluster_identity_oidc_issuer_arn" {
+output "cluster_identity_oidc_issuer_arn" {
   description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
   value       = try(aws_iam_openid_connect_provider.eks_openid_connect_provider.arn, "")
 }
