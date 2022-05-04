@@ -10,14 +10,14 @@ locals {
 
   vpc_private_subnet_name_tag = var.use_karpenter ? "${var.eks_cluster_name}-private-subnet" : "${var.eks_cluster_name}-fargate-subnet"
 
-  vpc_public_additional_subnet_tags = var.use_karpenter ? {
-    } : {
+  vpc_public_additional_subnet_tags = {
     "kubernetes.io/role/elb" = 1
   }
 
   vpc_private_additional_subnet_tags = var.use_karpenter ? {
     # Tags subnets for Karpenter auto-discovery
     "karpenter.sh/discovery" = var.eks_cluster_name
+    "kubernetes.io/role/internal-elb" = 1
     } : {
     "kubernetes.io/role/internal-elb" = 1
   }
