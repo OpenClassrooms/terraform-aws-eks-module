@@ -47,3 +47,33 @@ resource "aws_iam_role_policy_attachment" "ElasticLoadBalancingFullAccess" {
   policy_arn = "arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"
   role       = aws_iam_role.eks_node_group_role[0].name
 }
+
+resource "aws_iam_policy" "eks_node_group_custom_policy" {
+  count       = !var.use_fargate ? 1 : 0
+  name        = "eks_node_group_custom_policy"
+  description = "Policy that allows access to other resources (used by ALB controller to interact with albs)"
+
+  policy = <<EOF
+{
+   "Version": "2012-10-17",
+   "Statement": [
+        {
+            "Sid": "EksNodeGroupCustomPolicy",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeAvailabilityZones"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+   ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy_attachment" "claire_api_iam_role_policy_attachment" {
+  count      = !var.use_fargate ? 1 : 0
+  role       = aws_iam_role.eks_node_group_role[0].name
+  policy_arn = aws_iam_policy.eks_node_group_custom_policy[0].arn
+}
