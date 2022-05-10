@@ -41,3 +41,9 @@ resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCore" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   role       = aws_iam_role.eks_node_group_role[0].name
 }
+
+resource "aws_iam_role_policy_attachment" "ElasticLoadBalancingFullAccess" {
+  count      = var.use_karpenter ? 1 : 0
+  policy_arn = "arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"
+  role       = aws_iam_role.eks_node_group_role[0].name
+}

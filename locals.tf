@@ -16,7 +16,7 @@ locals {
 
   vpc_private_additional_subnet_tags = var.use_karpenter ? {
     # Tags subnets for Karpenter auto-discovery
-    "karpenter.sh/discovery" = var.eks_cluster_name
+    "karpenter.sh/discovery"          = var.eks_cluster_name
     "kubernetes.io/role/internal-elb" = 1
     } : {
     "kubernetes.io/role/internal-elb" = 1
