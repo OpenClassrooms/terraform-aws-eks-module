@@ -23,9 +23,9 @@ resource "aws_iam_role" "ext_secrets_role" {
   name               = "${var.eks_cluster_name}-external-secrets"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.ext_secrets_assumerole_policy[0].json
-  managed_policy_arns = [
-    "arn:aws:iam::aws:policy/SecretsManagerRead"
-  ]
+#   managed_policy_arns = [
+#     "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+#   ]
 
   inline_policy {
     name = "SsmReadFrom${var.eks_cluster_name}-external-secrets"
@@ -37,7 +37,8 @@ resource "aws_iam_role" "ext_secrets_role" {
           Action = [
             "ssm:Get*",
             "ssm:Describe*",
-            "ssm:List*"
+            "ssm:List*",
+            "kms:Decrypt"
           ]
           Effect   = "Allow"
           Resource = "*"
