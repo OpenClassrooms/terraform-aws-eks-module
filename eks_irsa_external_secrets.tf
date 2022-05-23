@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "ext_secrets_assumerole_policy" {
 
 resource "aws_iam_role" "ext_secrets_role" {
   count              = var.use_external_secrets ? 1 : 0
-  name               = "${var.eks_cluster_name}-external-secrets}"
+  name               = "${var.eks_cluster_name}-external-secrets"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.ext_secrets_assumerole_policy[0].json
   managed_policy_arns = [
@@ -28,7 +28,7 @@ resource "aws_iam_role" "ext_secrets_role" {
   ]
 
   inline_policy {
-    name = "SsmReadFrom${var.eks_cluster_name}-external-secrets}"
+    name = "SsmReadFrom${var.eks_cluster_name}-external-secrets"
 
     policy = jsonencode({
       Version = "2012-10-17"
