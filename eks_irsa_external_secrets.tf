@@ -5,10 +5,15 @@ data "aws_iam_policy_document" "ext_secrets_assumerole_policy" {
     condition {
       test     = "StringEquals"
       variable = "${trimprefix(aws_iam_openid_connect_provider.eks_openid_connect_provider.url, "https://")}:sub"
-
       values = [
-        "system:serviceaccount:external-secrets:${var.eks_cluster_name}-external-secrets"
+        "system:serviceaccount:external-secrets:${var.eks_cluster_name}-external-secrets",
       ]
+    }
+
+    condition {
+      test     = "StringEquals"
+      variable = "${trimprefix(aws_iam_openid_connect_provider.eks_openid_connect_provider.url, "https://")}:aud"
+      values   = ["sts.amazonaws.com"]
     }
 
     principals {
@@ -23,9 +28,9 @@ resource "aws_iam_role" "ext_secrets_role" {
   name               = "${var.eks_cluster_name}-external-secrets"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.ext_secrets_assumerole_policy[0].json
-#   managed_policy_arns = [
-#     "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
-#   ]
+  #   managed_policy_arns = [
+  #     "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+  #   ]
 
   inline_policy {
     name = "SsmReadFrom${var.eks_cluster_name}-external-secrets"
