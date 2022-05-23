@@ -9,6 +9,7 @@ module "my_example_module" {
 
   use_fargate   = false
   use_karpenter = true
+  use_external_secrets = true
 
   eks_vpc_cidr            = nonsensitive(data.aws_ssm_parameter.eks_vpc_cidr.value)
   eks_public_subnet_cidr  = split(",", nonsensitive(data.aws_ssm_parameter.eks_public_subnet_cidr.value))

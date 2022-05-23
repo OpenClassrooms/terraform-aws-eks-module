@@ -91,3 +91,8 @@ variable "use_karpenter" {
   description = "Do you want to use karpenter (https://karpenter.sh/) or manage your node group yourself?"
   default     = false
 }
+
+variable "use_external_secrets" {
+  description = "Do you want to install an IRSA for external secrets? (role created will be <cluster_name>-external-secrets and service account authorized to assume it will be <cluster_name>-external-secrets)"
+  default     = false
+}

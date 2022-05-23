@@ -27,21 +27,3 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicyKarpenter" {
     module.karpenter_irsa
   ]
 }
-
-# resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_PolicyKarpenter" {
-#   count   = var.use_karpenter ? 1 : 0
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-#   role       = "karpenter-controller-${var.eks_cluster_name}"
-# }
-
-# resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnlyKarpenter" {
-#   count   = var.use_karpenter ? 1 : 0
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-#   role       = "karpenter-controller-${var.eks_cluster_name}"
-# }
-
-# resource "aws_iam_role_policy_attachment" "AmazonSSMManagedInstanceCoreKarpenter" {
-#   count   = var.use_karpenter ? 1 : 0
-#   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-#   role       = "karpenter-controller-${var.eks_cluster_name}"
-# }
