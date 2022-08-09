@@ -1,5 +1,5 @@
 resource "aws_iam_role" "eks_admin_role" {
-  name               = "eks-admin-role"
+  name               = "${var.eks_cluster_name}-eks-admin-role"
   assume_role_policy = <<EOF
 {
   "Version" : "2012-10-17",
