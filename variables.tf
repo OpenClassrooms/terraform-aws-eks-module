@@ -10,8 +10,6 @@ variable "eks_version" {
 variable "default_tags" {
   type = map(string)
   default = {
-    deployed_by        = "terraform"
-    stack              = "infra"
     module             = "eks"
     module_github_repo = "https://github.com/OpenClassrooms/terraform-aws-eks-module"
   }
