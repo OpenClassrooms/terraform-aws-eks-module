@@ -50,7 +50,7 @@ resource "aws_iam_role_policy_attachment" "ElasticLoadBalancingFullAccess" {
 
 resource "aws_iam_policy" "eks_node_group_custom_policy" {
   count       = !var.use_fargate ? 1 : 0
-  name        = "eks_node_group_custom_policy"
+  name        = "${var.eks_cluster_name}-node-group-cust-policy"
   description = "Policy that allows access to other resources (used by ALB controller to interact with albs)"
 
   policy = <<EOF

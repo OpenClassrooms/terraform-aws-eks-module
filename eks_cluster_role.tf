@@ -34,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSVPCResourceController1" {
 }
 
 resource "aws_iam_policy" "AmazonEKSClusterCloudWatchMetricsPolicy" {
-  name   = "AmazonEKSClusterCloudWatchMetricsPolicy"
+  name   = "${var.eks_cluster_name}-cw-metrics-cust-policy"
   policy = <<EOF
 {
     "Version": "2012-10-17",
