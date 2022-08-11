@@ -85,6 +85,21 @@ resource "aws_iam_policy" "eks_node_group_custom_policy" {
                 "ec2:DescribeTags",
                 "ec2:GetCoipPoolUsage",
                 "ec2:DescribeCoipPools",
+                "ec2:AttachVolume",
+                "ec2:CreateSnapshot",
+                "ec2:CreateTags",
+                "ec2:CreateVolume",
+                "ec2:DeleteSnapshot",
+                "ec2:DeleteTags",
+                "ec2:DeleteVolume",
+                "ec2:DescribeInstances",
+                "ec2:DescribeSnapshots",
+                "ec2:DescribeTags",
+                "ec2:DescribeVolumes",
+                "ec2:DetachVolume",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:CreateSecurityGroup",
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "elasticloadbalancing:DescribeLoadBalancerAttributes",
                 "elasticloadbalancing:DescribeListeners",
@@ -118,21 +133,6 @@ resource "aws_iam_policy" "eks_node_group_custom_policy" {
                 "shield:DescribeProtection",
                 "shield:CreateProtection",
                 "shield:DeleteProtection"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:AuthorizeSecurityGroupIngress",
-                "ec2:RevokeSecurityGroupIngress"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:CreateSecurityGroup"
             ],
             "Resource": "*"
         },
@@ -274,18 +274,7 @@ resource "aws_iam_policy" "eks_node_group_custom_policy" {
         {
             "Effect": "Allow",
             "Action": [
-                "ec2:AttachVolume",
-                "ec2:CreateSnapshot",
-                "ec2:CreateTags",
-                "ec2:CreateVolume",
-                "ec2:DeleteSnapshot",
-                "ec2:DeleteTags",
-                "ec2:DeleteVolume",
-                "ec2:DescribeInstances",
-                "ec2:DescribeSnapshots",
-                "ec2:DescribeTags",
-                "ec2:DescribeVolumes",
-                "ec2:DetachVolume"
+                "ecr:*"
             ],
             "Resource": "*"
     }
