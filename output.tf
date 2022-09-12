@@ -18,6 +18,11 @@ output "cluster_oidc_issuer_url" {
   value       = try(aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer, "")
 }
 
+output "cluster_oidc_provider_thumbprint" {
+  description = "The thumbprint of the OpenID Connect identity provider"
+  value       = try(data.tls_certificate.eks_cluster_tls_certificate.certificates.0.sha1_fingerprint, "")
+}
+
 output "cluster_identity_oidc_issuer_arn" {
   description = "The OIDC Identity issuer ARN for the cluster that can be used to associate IAM roles with a service account"
   value       = try(aws_iam_openid_connect_provider.eks_openid_connect_provider.arn, "")
