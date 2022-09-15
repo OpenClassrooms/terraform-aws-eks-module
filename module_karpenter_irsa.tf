@@ -30,7 +30,7 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicyKarpenter" {
 
 resource "aws_iam_policy" "additional_karpenter_grants_policy" {
   count       = var.use_karpenter ? 1 : 0
-  name        = "additional_karpenter_grants_policy"
+  name        = "additional_karpenter_grants_policy_${var.eks_cluster_name}"
   description = "Additional right for Karpenter controller"
 
   policy = <<EOF
