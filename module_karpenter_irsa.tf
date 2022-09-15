@@ -27,3 +27,36 @@ resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicyKarpenter" {
     module.karpenter_irsa
   ]
 }
+
+resource "aws_iam_policy" "additional_karpenter_grants_policy" {
+  count       = var.use_karpenter ? 1 : 0
+  name        = "additional_karpenter_grants_policy"
+  description = "Additional right for Karpenter controller"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "pricing:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
+  depends_on = [
+    module.karpenter_irsa
+  ]
+}
+
+resource "aws_iam_role_policy_attachment" "additional_karpenter_grants_policy_attachment" {
+  count      = var.use_karpenter ? 1 : 0
+  policy_arn = aws_iam_policy.additional_karpenter_grants_policy[0].arn
+  role       = "karpenter-controller-${var.eks_cluster_name}"
+  depends_on = [
+    module.karpenter_irsa
+  ]
+}
