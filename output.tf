@@ -50,7 +50,7 @@ output "eks_admin_role_name" {
 
 output "eks_node_group_role_name" {
   description = "The EKS node_group role name"
-  value       = aws_iam_role.eks_node_group_role.name
+  value       = var.use_fargate ? "" : aws_iam_role.eks_node_group_role[0].name
 }
 
 output "karpenter_irsa_iam_role_arn" {
