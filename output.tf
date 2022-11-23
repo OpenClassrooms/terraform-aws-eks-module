@@ -48,6 +48,11 @@ output "eks_admin_role_name" {
   value       = aws_iam_role.eks_admin_role.name
 }
 
+output "eks_node_group_role_name" {
+  description = "The EKS node_group role name"
+  value       = aws_iam_role.eks_node_group_role.name
+}
+
 output "karpenter_irsa_iam_role_arn" {
   description = "The karpenter_irsa iam role arn"
   value       = var.use_karpenter ? module.karpenter_irsa[0].iam_role_arn : null
