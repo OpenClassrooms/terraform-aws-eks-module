@@ -63,3 +63,8 @@ output "karpenter_iam_instance_profile_name" {
   value       = var.use_karpenter ? aws_iam_instance_profile.karpenter[0].name : null
 }
 
+output "karpenter_queue_name" {
+  description = "The karpenter SQS queue name"
+  value       = var.use_karpenter ? module.karpenter_irsa.queue_name : null
+}
+
