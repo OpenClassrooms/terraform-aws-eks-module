@@ -277,7 +277,14 @@ resource "aws_iam_policy" "eks_node_group_custom_policy" {
                 "ecr:*"
             ],
             "Resource": "*"
-    }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sqs:*"
+            ],
+            "Resource": "*"
+        }
     ]
 }
 EOF
