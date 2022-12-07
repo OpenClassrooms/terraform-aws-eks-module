@@ -1,22 +1,17 @@
 module "karpenter_irsa" {
   count   = var.use_karpenter ? 1 : 0
-  source  = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version = "4.22.1"
+  source  = "terraform-aws-modules/eks/aws//modules/karpenter"
+  version = "18.31.0"
 
-  role_name                          = "karpenter-controller-${var.eks_cluster_name}"
-  attach_karpenter_controller_policy = true
+  cluster_name = var.eks_cluster_name
 
-  karpenter_controller_cluster_id = aws_eks_cluster.eks_cluster.id
-  karpenter_controller_node_iam_role_arns = [
-    aws_iam_role.eks_node_group_role[0].arn
-  ]
+  irsa_oidc_provider_arn          = aws_iam_openid_connect_provider.eks_openid_connect_provider.arn
+  irsa_namespace_service_accounts = ["karpenter:karpenter"]
 
-  oidc_providers = {
-    ex = {
-      provider_arn               = aws_iam_openid_connect_provider.eks_openid_connect_provider.arn
-      namespace_service_accounts = ["karpenter:karpenter"]
-    }
-  }
+  # Since Karpenter is running on an EKS Managed Node group,
+  # we can re-use the role that was created for the node group
+  create_iam_role = false
+  iam_role_arn    = aws_iam_role.eks_node_group_role[0].arn
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicyKarpenter" {
