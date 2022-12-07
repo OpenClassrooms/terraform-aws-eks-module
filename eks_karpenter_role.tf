@@ -1,5 +1,5 @@
 data "aws_iam_policy_document" "karpenter_assumerole_policy" {
-  count      = var.use_karpenter ? 1 : 0
+  count = var.use_karpenter ? 1 : 0
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
     condition {
@@ -24,7 +24,7 @@ data "aws_iam_policy_document" "karpenter_assumerole_policy" {
 }
 
 resource "aws_iam_role" "karpenter_role" {
-  count      = var.use_karpenter ? 1 : 0
+  count              = var.use_karpenter ? 1 : 0
   name               = "karpenter-${var.eks_cluster_name}"
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.karpenter_assumerole_policy[0].json

@@ -19,5 +19,13 @@ resource "aws_eks_node_group" "eks_node_group" {
   }
 
   instance_types = ["${var.eks_node_group_instance_types}"]
-  tags           = merge(var.tags, var.default_tags, local.node_group_resources_additional_tags)
+
+  labels = var.use_karpenter ? {
+    "karpenter.sh/do-not-evict"          = "true"
+    "terraform-aws-eks-module/node-type" = "base-node"
+    } : {
+    "terraform-aws-eks-module/node-type" = "base-node"
+  }
+
+  tags = merge(var.tags, var.default_tags, local.node_group_resources_additional_tags)
 }
