@@ -55,7 +55,7 @@ output "eks_node_group_role_name" {
 
 output "karpenter_irsa_iam_role_arn" {
   description = "The karpenter_irsa iam role arn"
-  value       = var.use_karpenter ? module.karpenter_irsa[0].iam_role_arn : null
+  value       = var.use_karpenter ? aws_iam_role.eks_node_group_role[0].arn : null
 }
 
 output "karpenter_iam_instance_profile_name" {
@@ -65,6 +65,6 @@ output "karpenter_iam_instance_profile_name" {
 
 output "karpenter_queue_name" {
   description = "The karpenter SQS queue name"
-  value       = var.use_karpenter ? module.karpenter_irsa.queue_name : null
+  value       = var.use_karpenter ? module.karpenter_irsa[0].queue_name : null
 }
 
