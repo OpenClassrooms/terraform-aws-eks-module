@@ -4,6 +4,9 @@ module "karpenter_irsa" {
   version = "18.31.0"
 
   cluster_name = var.eks_cluster_name
+  # There is a total limitation of char length (< 38)
+  irsa_use_name_prefix = false
+  irsa_name            = md5(var.eks_cluster_name)
 
   irsa_oidc_provider_arn          = aws_iam_openid_connect_provider.eks_openid_connect_provider.arn
   irsa_namespace_service_accounts = ["karpenter:karpenter"]
