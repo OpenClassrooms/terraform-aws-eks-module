@@ -1,6 +1,6 @@
 resource "aws_launch_template" "eks_node_group_launch_template" {
   image_id = "" # let empty to let EKS choose his optimized image
-  #instance_type          = var.eks_node_group_instance_capacity_type
+  #   image_id = data.aws_ami.last_eks.image_id
   name                   = "${var.eks_cluster_name}-node-group-launch-template"
   update_default_version = true
 

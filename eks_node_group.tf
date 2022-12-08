@@ -18,7 +18,7 @@ resource "aws_eks_node_group" "eks_node_group" {
     version = aws_launch_template.eks_node_group_launch_template.latest_version
   }
 
-  instance_types = ["${var.eks_node_group_instance_types}"]
+  instance_types = var.eks_node_group_instance_types
 
   labels = var.use_karpenter ? {
     "karpenter.sh/do-not-evict"          = "true"
