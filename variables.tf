@@ -95,3 +95,8 @@ variable "use_external_secrets" {
   description = "Do you want to install an IRSA for external secrets? (role created will be <cluster_name>-external-secrets and service account authorized to assume it will be <cluster_name>-external-secrets)"
   default     = false
 }
+
+variable "use_ssh_key" {
+  description = "Do you want to create an ssh key to connect to your nodes?"
+  default     = false
+}
