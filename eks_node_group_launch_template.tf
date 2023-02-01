@@ -4,8 +4,6 @@ resource "aws_launch_template" "eks_node_group_launch_template" {
   name                   = "${var.eks_cluster_name}-node-group-launch-template"
   update_default_version = true
 
-  key_name = var.use_ssh_key ? aws_key_pair.eks_key_pair[0].key_name : null
-
   block_device_mappings {
     device_name = "/dev/xvda"
 

@@ -72,13 +72,3 @@ output "cluster_security_group_id" {
   description = "The SG id generated and used by the cluster"
   value       = try(aws_eks_cluster.eks_cluster.vpc_config[0].cluster_security_group_id, "")
 }
-
-output "ssh_public_key" {
-  description = "The SSH public key for connecting to EKS nodes"
-  value       = var.use_ssh_key ? tls_private_key.eks_ssh_key[0].public_key_openssh : null
-}
-
-output "ssh_private_key" {
-  description = "The SSH private key for connecting to EKS nodes"
-  value       = var.use_ssh_key ? tls_private_key.eks_ssh_key[0].private_key_pem : null
-}
