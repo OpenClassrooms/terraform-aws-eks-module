@@ -4,7 +4,7 @@ variable "eks_cluster_name" {
 
 variable "eks_version" {
   description = "The version of K8s you want to run"
-  default     = "1.24"
+  default     = "1.23"
 }
 
 variable "default_tags" {
