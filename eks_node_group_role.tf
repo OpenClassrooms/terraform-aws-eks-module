@@ -100,6 +100,7 @@ resource "aws_iam_policy" "eks_node_group_custom_policy" {
                 "ec2:AuthorizeSecurityGroupIngress",
                 "ec2:RevokeSecurityGroupIngress",
                 "ec2:CreateSecurityGroup",
+                "ec2:TerminateInstances",
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "elasticloadbalancing:DescribeLoadBalancerAttributes",
                 "elasticloadbalancing:DescribeListeners",
