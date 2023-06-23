@@ -20,4 +20,8 @@ resource "aws_launch_template" "eks_node_group_launch_template" {
       Name = "${var.eks_cluster_name}-node-group-instance"
     })
   }
+
+  # WARN: Ec2LaunchTemplateInvalidConfiguration: User data was not in the MIME multipart format.
+  # Actually not working
+  user_data = var.auto_node_rotation_enabled ? base64encode(local.userdata) : null
 }
