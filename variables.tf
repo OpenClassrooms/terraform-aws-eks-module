@@ -95,3 +95,13 @@ variable "use_external_secrets" {
   description = "Do you want to install an IRSA for external secrets? (role created will be <cluster_name>-external-secrets and service account authorized to assume it will be <cluster_name>-external-secrets)"
   default     = false
 }
+
+variable "auto_node_rotation_enabled" {
+  description = "Do you want your eks base nodes to be rotated every X days?"
+  default     = false
+}
+
+variable "auto_node_rotation_days" {
+  description = "Do you want your eks base nodes to be rotated every X days?"
+  default     = 7
+}

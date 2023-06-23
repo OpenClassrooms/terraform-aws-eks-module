@@ -1,0 +1,61 @@
+#!/bin/bash
+NODE_UPTIME_CHECKER_SCRIPT_FILE=/root/node-uptime-checker.sh
+
+NODE_UPTIME_CHECKER_SCRIPT=$(cat <<EOF
+#!/bin/bash
+GRACE_PERIOD_SECONDS=300
+MAX_UPTIME_DAYS=${auto_node_rotation_days}
+export INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+export KUBECONFIG="/var/lib/kubelet/kubeconfig"
+export WORKER_NAME=$(hostname)
+
+# Vérification de l'uptime
+uptime=\$(uptime -s)
+current_time=\$(date +%s)
+uptime_seconds=\$((current_time - \$(date -d "\$uptime" +%s)))
+uptime_days=\$((uptime_seconds / 86400))
+
+if [ \$uptime_days -ge \$MAX_UPTIME_DAYS ]; then
+    echo "\$(date '+%Y-%m-%d %H:%M:%S') Machine uptime reach \$MAX_UPTIME_DAYS days. Need to be rotated"
+    RANDOM_SECONDS=\$((RANDOM % 1800))
+    echo "\$(date '+%Y-%m-%d %H:%M:%S') Sleeping randomly (from 0 to 1800 seconds) to avoid overlap with another node rotation: \$RANDOM_SECONDS"
+    sleep \$RANDOM_SECONDS
+    echo "\$(date '+%Y-%m-%d %H:%M:%S') Cordon kube node"
+    kubectl cordon \$WORKER_NAME
+    # drain is not working due to insufficient permissions
+    # kubectl drain --force --ignore-daemonsets=true --delete-emptydir-data --grace-period=\$GRACE_PERIOD_SECONDS \$WORKER_NAME
+    echo "\$(date '+%Y-%m-%d %H:%M:%S') Deleting all the pods"
+    kubectl get pods --all-namespaces -o yaml --field-selector spec.nodeName=\$WORKER_NAME,metadata.namespace!=kube-system | kubectl delete --grace-period=\$GRACE_PERIOD_SECONDS -f -
+    echo "\$(date '+%Y-%m-%d %H:%M:%S') Terminating node"
+    aws ec2 terminate-instances --instance-ids \$INSTANCE_ID
+else
+    echo "\$(date '+%Y-%m-%d %H:%M:%S') Machine uptime is under \$MAX_UPTIME_DAYS days"
+fi
+
+EOF
+)
+
+
+#FULL_RIGHTS_KUBECONFIG_FILE="/root/.kubeconfig_full_rights"
+#aws eks update-kubeconfig --name eks-app-demo-eu-west-3 --kubeconfig=$FULL_RIGHTS_KUBECONFIG_FILE
+#export KUBECONFIG="$FULL_RIGHTS_KUBECONFIG_FILE"
+
+##########################
+# Begining of the script #
+##########################
+echo "Installing Kubectl command"
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.4/2023-05-11/bin/linux/amd64/kubectl && chmod +x kubectl && mv kubectl /usr/local/bin/
+
+echo "Writing $NODE_UPTIME_CHECKER_SCRIPT_FILE file"
+echo "$NODE_UPTIME_CHECKER_SCRIPT" > $NODE_UPTIME_CHECKER_SCRIPT_FILE
+
+echo "Setting up exec permission on $NODE_UPTIME_CHECKER_SCRIPT_FILE file"
+chmod +x $NODE_UPTIME_CHECKER_SCRIPT_FILE
+
+echo "Setting cronjob for $NODE_UPTIME_CHECKER_SCRIPT_FILE in /etc/cron.d/node_uptime_checker"
+echo "0 * * * * root $NODE_UPTIME_CHECKER_SCRIPT_FILE >> /var/log/node-uptime-checker.sh.log 2>&1" > /etc/cron.d/node_uptime_checker
+
+echo "Restarting cron daemon"
+systemctl restart crond
+
+echo "End of userdata script"

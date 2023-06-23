@@ -30,4 +30,11 @@ locals {
     } : {
   }
 
+  userdata = templatefile(
+    "${path.module}/node-user-data.sh.tmpl",
+    {
+      "auto_node_rotation_days" = var.auto_node_rotation_days
+    }
+  )
+
 }
