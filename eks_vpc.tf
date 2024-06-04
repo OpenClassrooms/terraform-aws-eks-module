@@ -45,8 +45,8 @@ resource "aws_internet_gateway" "internet_gateway" {
 }
 
 resource "aws_eip" "nat_gateway_eip" {
-  count = length(var.eks_public_subnet_cidr)
-  vpc   = true
+  count  = length(var.eks_public_subnet_cidr)
+  domain = "vpc"
   tags = merge(var.tags, var.default_tags, {
     Name = "${var.eks_cluster_name}-nat-gateway-eip"
   })
