@@ -1,9 +1,9 @@
-formatter: "" # this is required
+formatter: markdown table
 
-version: ""
+version:
 
 header-from: main.tf
-footer-from: ""
+footer-from:
 
 recursive:
   enabled: false
@@ -14,10 +14,10 @@ sections:
   hide: []
   show: []
 
-content: ""
+content:
 
 output:
-  file: ""
+  file:
   mode: inject
   template: |-
     <!-- BEGIN_TF_DOCS -->
@@ -26,14 +26,14 @@ output:
 
 output-values:
   enabled: false
-  from: ""
+  from:
 
 sort:
   enabled: true
   by: name
 
 settings:
-  anchor: true
+  anchor: false
   color: true
   default: true
   description: false
