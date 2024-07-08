@@ -212,7 +212,7 @@ resource "aws_iam_role" "karpenter_role_beta" {
         {
           Sid      = "AllowInterruptionQueueActions",
           Effect   = "Allow",
-          Resource = "arn:*:sqs:${local.region}:${local.account_id}:${var.eks_cluster_name}",
+          Resource = "arn:*:sqs:${local.region}:${local.account_id}:Karpenter-${var.eks_cluster_name}",
           Action = [
             "sqs:DeleteMessage",
             "sqs:GetQueueAttributes",
