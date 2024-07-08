@@ -57,6 +57,10 @@ output "karpenter_irsa_iam_role_arn" {
   description = "The karpenter_irsa iam role arn"
   value       = var.use_karpenter ? aws_iam_role.karpenter_role[0].arn : null
 }
+output "karpenter_irsa_iam_role_arn_beta" {
+  description = "The karpenter_irsa iam role arn Beta"
+  value       = var.use_karpenter ? aws_iam_role.karpenter_role_beta[0].arn : null
+}
 
 output "karpenter_iam_instance_profile_name" {
   description = "The karpenter iam instance profile name"
