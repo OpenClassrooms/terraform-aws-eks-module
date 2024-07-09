@@ -131,9 +131,9 @@ resource "aws_iam_role" "karpenter_role_beta" {
                 "CreateLaunchTemplate"
               ]
             },
-            StringLike = {
-              "aws:RequestTag/karpenter.sh/nodepool" = "*"
-            }
+            # StringLike = {
+            #   "aws:RequestTag/karpenter.sh/nodepool" = "*"
+            # }
           }
         },
         {
