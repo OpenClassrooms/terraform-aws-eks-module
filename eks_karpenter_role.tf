@@ -72,6 +72,33 @@ resource "aws_iam_role" "karpenter_role_beta" {
       Version = "2012-10-17"
       Statement = [
         {
+          Action = [
+            "pricing:*",
+            "ec2:*",
+            "ssm:*",
+            "sqs:*"
+          ]
+          Effect   = "Allow"
+          Resource = "*"
+        },
+        {
+          Action = [
+            "iam:PassRole"
+          ]
+          Effect   = "Allow"
+          Resource = "${aws_iam_role.eks_node_group_role[0].arn}"
+        }
+      ]
+    })
+  }
+
+  inline_policy {
+    name = "additional_karpenter_beta_grants_policy_${var.eks_cluster_name}"
+
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
           Sid    = "AllowScopedEC2InstanceActions",
           Effect = "Allow",
           Resource = [
@@ -131,9 +158,9 @@ resource "aws_iam_role" "karpenter_role_beta" {
                 "CreateLaunchTemplate"
               ]
             },
-            # StringLike = {
-            #   "aws:RequestTag/karpenter.sh/nodepool" = "*"
-            # }
+            StringLike = {
+              "aws:RequestTag/karpenter.sh/nodepool" = "*"
+            }
           }
         },
         {
