@@ -65,32 +65,32 @@ resource "aws_iam_role" "karpenter_role_beta" {
   path               = "/"
   assume_role_policy = data.aws_iam_policy_document.karpenter_assumerole_policy[0].json
 
-  # inline_policy {
-  #   name = "additional_karpenter_grants_policy_${var.eks_cluster_name}"
+  inline_policy {
+    name = "additional_karpenter_grants_policy_${var.eks_cluster_name}"
 
-  #   policy = jsonencode({
-  #     Version = "2012-10-17"
-  #     Statement = [
-  #       {
-  #         Action = [
-  #           "pricing:*",
-  #           "ec2:*",
-  #           "ssm:*",
-  #           "sqs:*"
-  #         ]
-  #         Effect   = "Allow"
-  #         Resource = "*"
-  #       },
-  #       {
-  #         Action = [
-  #           "iam:PassRole"
-  #         ]
-  #         Effect   = "Allow"
-  #         Resource = "${aws_iam_role.eks_node_group_role[0].arn}"
-  #       }
-  #     ]
-  #   })
-  # }
+    policy = jsonencode({
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Action = [
+            "pricing:*",
+            "ec2:*",
+            "ssm:*",
+            "sqs:*"
+          ]
+          Effect   = "Allow"
+          Resource = "*"
+        },
+        {
+          Action = [
+            "iam:PassRole"
+          ]
+          Effect   = "Allow"
+          Resource = "${aws_iam_role.eks_node_group_role[0].arn}"
+        }
+      ]
+    })
+  }
 
   inline_policy {
     name = "additional_karpenter_beta_grants_policy_${var.eks_cluster_name}"
