@@ -250,7 +250,7 @@ resource "aws_iam_role" "karpenter_role_beta" {
         {
           Sid      = "AllowPassingInstanceRole",
           Effect   = "Allow",
-          Resource = "arn:*:iam::${local.account_id}:role/KarpenterNodeRole-${var.eks_cluster_name}",
+          Resource = "arn:*:iam::${local.account_id}:role/${var.eks_cluster_name}-node-group-role",
           Action   = "iam:PassRole",
           Condition = {
             StringEquals = {
