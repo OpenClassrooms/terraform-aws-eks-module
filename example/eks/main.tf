@@ -60,6 +60,13 @@ resource "aws_ssm_parameter" "karpenter_irsa_iam_role_arn" {
   value    = module.my_example_module.karpenter_irsa_iam_role_arn
   tags     = var.default_tags
 }
+resource "aws_ssm_parameter" "karpenter_irsa_iam_role_arn_beta" {
+  provider = aws.root
+  name     = "/vault/shared/aws/${var.ou_name}/eks/${var.eks_cluster_name}/karpenter_irsa_iam_role_arn_beta"
+  type     = "String"
+  value    = module.my_example_module.karpenter_irsa_iam_role_arn
+  tags     = var.default_tags
+}
 
 resource "aws_ssm_parameter" "karpenter_iam_instance_profile_name" {
   provider = aws.root
