@@ -53,10 +53,6 @@ output "eks_node_group_role_name" {
   value       = var.use_fargate ? "" : aws_iam_role.eks_node_group_role[0].name
 }
 
-output "karpenter_irsa_iam_role_arn" {
-  description = "The karpenter_irsa iam role arn"
-  value       = var.use_karpenter ? aws_iam_role.karpenter_role[0].arn : null
-}
 output "karpenter_irsa_iam_role_arn_beta" {
   description = "The karpenter_irsa iam role arn Beta"
   value       = var.use_karpenter ? aws_iam_role.karpenter_role_beta[0].arn : null
