@@ -61,7 +61,9 @@ resource "aws_iam_role" "karpenter_role_beta" {
             "arn:*:ec2:${local.region}:*:instance/*",
             "arn:*:ec2:${local.region}:*:volume/*",
             "arn:*:ec2:${local.region}:*:network-interface/*",
-            "arn:*:ec2:${local.region}:*:launch-template/*"
+            "arn:*:ec2:${local.region}:*:launch-template/*",
+            "arn:*:ec2:${local.region}:*:spot-instances-request/*"
+
           ],
           Action = [
             "ec2:RunInstances",
@@ -85,7 +87,8 @@ resource "aws_iam_role" "karpenter_role_beta" {
             "arn:*:ec2:${local.region}:*:instance/*",
             "arn:*:ec2:${local.region}:*:volume/*",
             "arn:*:ec2:${local.region}:*:network-interface/*",
-            "arn:*:ec2:${local.region}:*:launch-template/*"
+            "arn:*:ec2:${local.region}:*:launch-template/*",
+            "arn:*:ec2:${local.region}:*:spot-instances-request/*"
           ],
           Action = "ec2:CreateTags",
           Condition = {
