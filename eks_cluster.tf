@@ -30,3 +30,9 @@ resource "aws_iam_openid_connect_provider" "eks_openid_connect_provider" {
   thumbprint_list = [data.tls_certificate.eks_cluster_tls_certificate.certificates.0.sha1_fingerprint]
   url             = aws_eks_cluster.eks_cluster.identity.0.oidc.0.issuer
 }
+
+resource "aws_eks_addon" "addon_kube_proxy" {
+  cluster_name = aws_eks_cluster.eks_cluster.name
+  addon_name   = "kube-proxy"
+  addon_version = "v1.22.6-eksbuild.1"
+}
