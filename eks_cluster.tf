@@ -31,8 +31,10 @@ resource "aws_iam_openid_connect_provider" "eks_openid_connect_provider" {
   url             = aws_eks_cluster.eks_cluster.identity.0.oidc.0.issuer
 }
 
-resource "aws_eks_addon" "addon_kube_proxy" {
-  cluster_name = aws_eks_cluster.eks_cluster.name
-  addon_name   = "kube-proxy"
-  addon_version = "v1.22.6-eksbuild.1"
+resource "aws_eks_addon" "eks_addons_to_install" {
+  for_each = var.aws_eks_addons
+
+  cluster_name               = aws_eks_cluster.eks_cluster.name
+  addon_name                 = each.key
+  resolve_conflicts_on_create = each.value.resolve_conflicts_on_create
 }
