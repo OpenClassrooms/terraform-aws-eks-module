@@ -95,3 +95,19 @@ variable "use_external_secrets" {
   description = "Do you want to install an IRSA for external secrets? (role created will be <cluster_name>-external-secrets and service account authorized to assume it will be <cluster_name>-external-secrets)"
   default     = false
 }
+
+variable "aws_eks_addons" {
+  description = "List of addons to manage"
+  type = map(map(string))
+  default     = {
+      "kube-proxy" = {
+        resolve_conflicts_on_create = "OVERWRITE"
+      },
+      "coredns" = {
+        resolve_conflicts_on_create = "OVERWRITE"
+      },
+      "vpc-cni" = {
+        resolve_conflicts_on_create = "OVERWRITE"
+      }
+  }
+}
