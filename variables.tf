@@ -110,7 +110,5 @@ variable "default_aws_eks_addons" {
 variable "additional_aws_eks_addons" {
   description = "List of addons to manage"
   type        = map(map(string))
-  default = {
-    aws-ebs-csi-driver = {}
-  }
+  default     = {}
 }
