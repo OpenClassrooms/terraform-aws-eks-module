@@ -96,18 +96,19 @@ variable "use_external_secrets" {
   default     = false
 }
 
-variable "aws_eks_addons" {
+variable "default_aws_eks_addons" {
   description = "List of addons to manage"
-  type = map(map(string))
-  default     = {
-      "kube-proxy" = {
-        resolve_conflicts_on_create = "OVERWRITE"
-      },
-      "coredns" = {
-        resolve_conflicts_on_create = "OVERWRITE"
-      },
-      "vpc-cni" = {
-        resolve_conflicts_on_create = "OVERWRITE"
-      }
+  type        = map(map(string))
+  default = {
+    coredns                = {}
+    eks-pod-identity-agent = {}
+    kube-proxy             = {}
+    vpc-cni                = {}
   }
+}
+
+variable "additional_aws_eks_addons" {
+  description = "List of addons to manage"
+  type        = map(map(string))
+  default     = {}
 }
