@@ -4,20 +4,27 @@ resource "aws_iam_role" "eks_node_group_role" {
   count = !var.use_fargate ? 1 : 0
   name  = "${var.eks_cluster_name}-node-group-role"
 
-  assume_role_policy = jsonencode({
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Principal = {
-        Service = "ec2.amazonaws.com"
-      }
-    }]
-    Version = "2012-10-17"
-  })
+  assume_role_policy = data.aws_iam_policy_document.eks_node_group_assume_role_policy[0].json
 
   tags = merge(var.tags, var.default_tags, local.node_group_resources_additional_tags)
 }
 
+data "aws_iam_policy_document" "eks_node_group_assume_role_policy" {
+  count = !var.use_fargate ? 1 : 0
+  statement {
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+  statement {
+    actions = [
+      "eks-auth:AssumeRoleForPodIdentity"
+    ]
+    resources = ["*"]
+  }
+}
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
   count      = !var.use_fargate ? 1 : 0
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
