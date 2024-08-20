@@ -96,7 +96,7 @@ variable "use_external_secrets" {
   default     = false
 }
 
-variable "aws_eks_addons" {
+variable "default_aws_eks_addons" {
   description = "List of addons to manage"
   type        = map(map(string))
   default = {
@@ -104,6 +104,13 @@ variable "aws_eks_addons" {
     eks-pod-identity-agent = {}
     kube-proxy             = {}
     vpc-cni                = {}
-    aws-ebs-csi-driver     = {}
+  }
+}
+
+variable "additional_aws_eks_addons" {
+  description = "List of addons to manage"
+  type        = map(map(string))
+  default = {
+    aws-ebs-csi-driver = {}
   }
 }
