@@ -20,9 +20,13 @@ data "aws_iam_policy_document" "eks_node_group_assume_role_policy" {
   }
   statement {
     actions = [
-      "eks-auth:AssumeRoleForPodIdentity"
+      "sts:AssumeRole",
+      "sts:TagSession"
     ]
-    resources = ["*"]
+    principals {
+      type        = "Service"
+      identifiers = ["pods.eks.amazonaws.com"]
+    }
   }
 }
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
