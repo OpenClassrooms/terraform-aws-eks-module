@@ -18,6 +18,16 @@ data "aws_iam_policy_document" "eks_node_group_assume_role_policy" {
       identifiers = ["ec2.amazonaws.com"]
     }
   }
+  statement {
+    actions = [
+      "sts:AssumeRole",
+      "sts:TagSession"
+    ]
+    principals {
+      type        = "Service"
+      identifiers = ["pods.eks.amazonaws.com"]
+    }
+  }
 }
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
   count      = !var.use_fargate ? 1 : 0
