@@ -62,6 +62,12 @@ variable "eks_node_group_instance_desired" {
   default     = 2
 }
 
+variable "eks_node_group_instance_ami_type" {
+  description = "The AMI type for nodes"
+  default     = "AL2_x86_64"
+  
+}
+
 variable "eks_vpc_cidr" {
   type        = string
   description = "VPC CIDR block."
