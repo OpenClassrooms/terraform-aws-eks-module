@@ -43,10 +43,7 @@ resource "aws_iam_role" "ext_secrets_role" {
             "ssm:Get*",
             "ssm:Describe*",
             "ssm:List*",
-            "kms:Decrypt",
-            "secretsmanager:GetSecretValue",
-            "secretsmanager:DescribeSecret",
-            "secretsmanager:GetResourcePolicy"
+            "kms:Decrypt"
           ]
           Effect   = "Allow"
           Resource = "*"
