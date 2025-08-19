@@ -28,10 +28,6 @@ resource "aws_eks_node_group" "eks_node_group" {
   }
 
   tags = merge(var.tags, var.default_tags, local.node_group_resources_additional_tags)
-
+  
   ami_type = var.eks_node_group_instance_ami_type
-
-  lifecycle {
-    create_before_destroy = true
-  }
 }
