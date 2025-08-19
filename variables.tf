@@ -64,7 +64,7 @@ variable "eks_node_group_instance_desired" {
 
 variable "eks_node_group_instance_ami_type" {
   description = "The AMI type for nodes"
-  default     = "AL2023_x86_64"
+  default     = "AL2023_x86_64_STANDARD"
   type        = string
 }
 
