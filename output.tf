@@ -72,3 +72,8 @@ output "cluster_security_group_id" {
   description = "The SG id generated and used by the cluster"
   value       = try(aws_eks_cluster.eks_cluster.vpc_config[0].cluster_security_group_id, "")
 }
+
+output "vpc_cidr_block" {
+  description = "The VPC CIDR - usefull for peering"
+  value       = aws_vpc.vpc.cidr_block
+}
